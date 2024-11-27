@@ -6,5 +6,5 @@ license = "BSD-3-Clause"
 srcDir = "src"
 bin = @["inactiveusers"]
 
-requires = "nim >= 2.12"
+requires = "nim >= 2.0.12"
 
