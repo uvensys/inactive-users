@@ -3,6 +3,16 @@ import std/strformat
 import std/strutils
 import std/sequtils
 
+###########################
+# configuration vars:
+###########################
+let allow_sync = true
+
+
+############################
+# START of Programm
+############################
+
 let outp_last = execProcess("lastlog", args=["-b", "90"], options={poUsePath})
 
 let outp_ent = execProcess("getent", args=["passwd"], options={poUsePath})
@@ -13,7 +23,9 @@ iterator get_users*(ent: string): string =
     let fields = split(line, ':')
     if (len(fields) == 1):
       continue
-    if (fields[6] == "/usr/sbin/nologin" or fields[6] == "/bin/false"):
+    if (fields[6] == "/usr/sbin/nologin" or fields[6] == "/bin/false" or or fields[6] == "/bin/true"):
+      continue
+    if (allow_sync and fields[6] == "/bin/sync"):
       continue
     yield fields[0]
 
